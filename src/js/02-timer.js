@@ -8,7 +8,8 @@ startBtnRef.addEventListener('click', () => {
     timer.start();
 });
 
-startBtnRef.disabled = true;
+onCloseBtn(startBtnRef);
+
 const notiflixOptions = {
     timeout: 6000, 
     clickToClose: true,
@@ -28,16 +29,15 @@ const options = {
     onClose(selectedDates) {
         currentTime = Date.now();
         futureTime = selectedDates[0].getTime();
-        currentTime = Date.now();
         if (futureTime <= currentTime ) {
             Notiflix.Notify.warning(
                 "Please choose a date in the future",
                 notiflixOptions,
             );
-            startBtnRef.disabled = true;
+            onCloseBtn(startBtnRef);
             return;
         }
-        startBtnRef.disabled = false;
+            onOpenBtn(startBtnRef);
     },
 };
 
@@ -66,8 +66,17 @@ const timer = {
     
     stop(){
         clearInterval(this.intervalId);
-        startBtnRef.disabled = false;
+        onOpenBtn(startBtnRef)
+        
     },    
+}
+
+function onOpenBtn(btnRef) {
+    btnRef.disabled = false;
+}
+
+function onCloseBtn(btnRef) {
+    btnRef.disabled = true;
 }
 
 function convertMs(ms) {
